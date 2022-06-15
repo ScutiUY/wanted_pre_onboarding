@@ -6,3 +6,16 @@
 //
 
 import Foundation
+
+struct Coordinate: Codable {
+    
+    static var empty = Coordinate(longitude: 0, latitude: 0)
+    
+    let lon: Float
+    let lat: Float
+    
+    init(longitude: Float, latitude: Float) {
+        self.lon = longitude
+        self.lat = latitude
+    }
+}
