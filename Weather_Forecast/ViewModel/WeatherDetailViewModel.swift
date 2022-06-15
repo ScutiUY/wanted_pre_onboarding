@@ -6,3 +6,20 @@
 //
 
 import Foundation
+
+class WeatherDetailViewModel {
+    
+    private var weatherDetailData = WeatherInfo(coord: Coordinate.empty, weather: [], main: Main.empty)
+    
+    var dataUpdate: (() -> ()) = { }
+    
+    func fetchData() -> WeatherInfo{
+        return weatherDetailData
+    }
+    
+    func getWeatherData(weatherData: WeatherInfo) {
+        weatherDetailData = weatherData
+        self.dataUpdate()
+    }
+    
+}
