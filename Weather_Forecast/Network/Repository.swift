@@ -7,3 +7,26 @@
 
 import Foundation
 
+class Repository: NSObject {
+    
+    private let httpClient = HttpClient(baseUrl: "https://api.openweathermap.org/data/2.5/weather")
+    private let serviceKey = "18ef8f79c4e487640ba6b05aa9ca0a4f"
+    private let baseRegion = "Korea"
+    
+    func list(region: String, completed: @escaping (WeatherInfo) -> Void) {
+        httpClient.getJson(params: ["q" : region, "appid":serviceKey]) { result in
+            switch result {
+            case .success(let data):
+                do {
+                    let decodedData = try JSONDecoder().decode(WeatherInfo.self, from: data)
+                    completed(decodedData)
+                } catch {
+                    print("getWeatherData Decoidng error in \(#function)")
+                }
+                
+            case .failure(let error):
+                print("error:",error)
+            }
+        }
+    }
+}
