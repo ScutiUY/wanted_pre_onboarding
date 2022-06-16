@@ -11,6 +11,11 @@ class WeatherListViewController: UIViewController {
 
     var viewModel: WeatherListViewModel!
     
+    lazy var activity: UIActivityIndicatorView = {
+        var activity = UIActivityIndicatorView(style: .large)
+        return activity
+    }()
+    
     lazy var weatherCollectionView: UICollectionView = {
         var layout = UICollectionViewFlowLayout()
         var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -34,14 +39,19 @@ class WeatherListViewController: UIViewController {
         self.title = "Weather"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         weatherCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        activity.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(weatherCollectionView)
+        view.addSubview(activity)
         
         NSLayoutConstraint.activate([
             weatherCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
             weatherCollectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             weatherCollectionView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            weatherCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            weatherCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            activity.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activity.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
     
@@ -49,6 +59,12 @@ class WeatherListViewController: UIViewController {
         viewModel.weatherListUpdated = { [weak self] in
             self?.weatherCollectionView.reloadData()
             self?.weatherCollectionView.refreshControl?.endRefreshing()
+        }
+        viewModel.loadingStarted = { [weak self] in
+            self?.activity.startAnimating()
+        }
+        viewModel.loadingEnded = { [weak self] in
+            self?.activity.stopAnimating()
         }
         viewModel.getList()
     }

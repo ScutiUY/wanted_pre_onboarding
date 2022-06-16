@@ -28,6 +28,7 @@ class WeatherListViewModel: NSObject {
             repository.list(region: region) { [self] weatherInfo in
                 self.weatherList.weatherList.append(weatherInfo)
                 self.weatherListUpdated()
+                loadingEnded()
             }
         }
     }
