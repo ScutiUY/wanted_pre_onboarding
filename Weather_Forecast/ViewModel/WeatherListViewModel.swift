@@ -31,6 +31,12 @@ class WeatherListViewModel: NSObject {
             }
         }
     }
+    func remove(at item: Int) {
+        weatherList.weatherList.remove(at: item)
+    }
+    func insert(_ newElement: WeatherInfo, at originIndexPath: Int) {
+        weatherList.weatherList.insert(newElement, at: originIndexPath)
+    }
     
     func weather(index: Int) -> WeatherInfo {
         return weatherList.weatherList[index]
