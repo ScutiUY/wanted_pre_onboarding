@@ -10,4 +10,4 @@ MVVM + Swift
 
 
 ## 디자인
-[Weather.pdf](https://github.com/ScutiUY/SurveyWay/files/8909313/Weather.pdf)
+<img width="1459" alt="weather디자인" src="https://user-images.githubusercontent.com/36326157/174065234-c67c4bf6-acdc-45ef-900f-08398ff953c8.png">
