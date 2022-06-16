@@ -53,10 +53,13 @@ class WeatherInfo: NSObject, Codable, NSItemProviderWriting {
     var cod: Int = 0
     var sys: Sys = Sys(type: 0, id: 0, country: "", sunrise: 0, sunset: 0)
     
+    var icon: UIImage?
+    
     init(coord: Coordinate, weather: [Weather], main: Main) {
         self.coord = coord
         self.weather = weather
         self.main = main
+        self.icon = nil
     }
    
     enum CodeKeys: CodingKey {
@@ -71,6 +74,7 @@ class WeatherInfo: NSObject, Codable, NSItemProviderWriting {
         case name
         case cod
         case sys
+        case icon
     }
     
     required init(from decoder: Decoder) throws {
@@ -84,13 +88,15 @@ class WeatherInfo: NSObject, Codable, NSItemProviderWriting {
         wind = try container.decode(Wind.self, forKey: .wind)
         sys = try container.decode(Sys.self, forKey: .sys)
         visibility = (try? container.decode(Int.self, forKey: .visibility)) ?? 0
+        icon = nil
         
     }
     
-//    func encode(to encoder: Encoder) throws {
-//        var container = encoder.container(keyedBy: CodeKeys.self)
-//        try container.encode(coord, forKey: .coord)
-//        try container.encode(weather, forKey: .weather)
-//        try container.encode(main, forKey: .main)
-//    }
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodeKeys.self)
+        try container.encode(coord, forKey: .coord)
+        try container.encode(weather, forKey: .weather)
+        try container.encode(main, forKey: .main)
+        icon = nil
+    }
 }
