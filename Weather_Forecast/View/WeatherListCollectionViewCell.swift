@@ -135,9 +135,14 @@ class WeatherListCollectionViewCell: UICollectionViewCell {
     }
     
     func fetchWeatherData(data: WeatherInfo) {
-        ImageLoader.loadImage(icon: data.weather.first!.icon) { icon in
-            self.weatherImage.image = icon
+        if data.icon == nil {
+            ImageLoader.loadImage(icon: data.weather.first!.icon) { icon in
+                self.weatherImage.image = icon
+            }
+        } else {
+            weatherImage.image = data.icon
         }
+        
         cityNameLabel.text = data.name
         temperatureLabel.text = String(Int(ceil(data.main.temp - 273.15))) + "°C"
         humidityLabel.text = "humidity: " + String(data.main.humidity)
