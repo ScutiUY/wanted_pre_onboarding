@@ -18,4 +18,18 @@ struct Coordinate: Codable {
         self.lon = longitude
         self.lat = latitude
     }
+    
+    enum Codingkeys: CodingKey {
+        case lon
+        case lat
+    }
+    
+    init(from decoder: Decoder) throws {
+        
+        let container = try decoder.container(keyedBy: Codingkeys.self)
+        lon = (try? container.decode(Float.self, forKey: .lon)) ?? 0.0
+        lat = (try? container.decode(Float.self, forKey: .lat)) ?? 0.0
+        
+    }
+    
 }
