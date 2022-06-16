@@ -11,3 +11,8 @@ MVVM + Swift
 
 ## 디자인
 <img width="1459" alt="weather디자인" src="https://user-images.githubusercontent.com/36326157/174065234-c67c4bf6-acdc-45ef-900f-08398ff953c8.png">
+
+## 기능
+- custom Model drag and drop
+
+![DragNDrop](https://user-images.githubusercontent.com/36326157/174067339-1dff05df-e7e2-429f-9166-ff7ae5176952.gif)
