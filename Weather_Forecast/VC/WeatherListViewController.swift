@@ -97,7 +97,18 @@ extension WeatherListViewController: UICollectionViewDragDelegate, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
-        
+        if let destinationIndexPath = coordinator.destinationIndexPath {
+            if let item = coordinator.items.first, let sourceIndexPath = item.sourceIndexPath {
+                collectionView.performBatchUpdates {
+                    viewModel.remove(at: sourceIndexPath.item)
+                    viewModel.insert(item.dragItem.localObject as! WeatherInfo, at: destinationIndexPath.item)
+
+                    collectionView.deleteItems(at: [sourceIndexPath])
+                    collectionView.insertItems(at: [destinationIndexPath])
+                }
+                coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
+            }
+        }
     }
     func collectionView(_ collectionView: UICollectionView, canHandle session: UIDropSession) -> Bool {
         return true
