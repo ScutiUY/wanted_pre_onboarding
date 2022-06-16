@@ -55,6 +55,7 @@ class WeatherListViewController: UIViewController {
     
 }
 
+//MARK: - CollectionView Delegate
 extension WeatherListViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -87,6 +88,7 @@ extension WeatherListViewController: UICollectionViewDelegate, UICollectionViewD
     
 }
 
+//MARK: - Drag and Drop Delegate
 extension WeatherListViewController: UICollectionViewDragDelegate, UICollectionViewDropDelegate {
     func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
         let item = viewModel.weather(index: indexPath.row)
