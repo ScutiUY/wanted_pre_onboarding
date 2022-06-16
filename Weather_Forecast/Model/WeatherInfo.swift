@@ -7,9 +7,37 @@
 
 import Foundation
 import UIKit
+import MobileCoreServices
+import UniformTypeIdentifiers
 
+class WeatherInfo: NSObject, Codable, NSItemProviderWriting {
+    
+    static var writableTypeIdentifiersForItemProvider: [String] {
+        return [UTType.data.identifier]
+    }
+    
+    func loadData(withTypeIdentifier typeIdentifier: String, forItemProviderCompletionHandler completionHandler: @escaping (Data?, Error?) -> Void) -> Progress? {
+        
+        let progress = Progress(totalUnitCount: 100)
 
-struct WeatherInfo: Codable {
+        do {
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = .prettyPrinted
+            let data = try encoder.encode(self)
+            _ = String(data: data, encoding: String.Encoding.utf8)
+            progress.completedUnitCount = 100
+            completionHandler(data, nil)
+        } catch {
+
+            completionHandler(nil, error)
+        }
+
+        return progress
+    }
+    
+    
+  
+    
     
     // 도시이름, 날씨 아이콘, 현재기온, 체감기온
     
@@ -45,17 +73,17 @@ struct WeatherInfo: Codable {
         case sys
     }
     
-    init(from decoder: Decoder) throws {
+    required init(from decoder: Decoder) throws {
         
         let container = try decoder.container(keyedBy: CodeKeys.self)
         coord = try container.decode (Coordinate.self, forKey: .coord)
         weather = try container.decode ([Weather].self, forKey: .weather)
-        base = try container.decode(String.self, forKey: .base)
+        base = (try? container.decode(String.self, forKey: .base)) ?? ""
         main = try container.decode(Main.self, forKey: .main)
-        name = try container.decode(String.self, forKey: .name)
+        name = (try? container.decode(String.self, forKey: .name)) ?? ""
         wind = try container.decode(Wind.self, forKey: .wind)
         sys = try container.decode(Sys.self, forKey: .sys)
-        visibility = try container.decode(Int.self, forKey: .visibility)
+        visibility = (try? container.decode(Int.self, forKey: .visibility)) ?? 0
         
     }
     
