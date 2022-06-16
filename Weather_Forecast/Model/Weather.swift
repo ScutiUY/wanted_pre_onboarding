@@ -20,4 +20,22 @@ struct Weather: Codable {
         self.description = description
         self.icon = icon
     }
+    
+    enum Codingkeys: CodingKey {
+        case id
+        case main
+        case description
+        case icon
+    }
+    
+    init(from decoder: Decoder) throws {
+        
+        let container = try decoder.container(keyedBy: Codingkeys.self)
+        id = (try? container.decode(Int.self, forKey: .id)) ?? 0
+        main = (try? container.decode(String.self, forKey: .main)) ?? ""
+        description = (try? container.decode(String.self, forKey: .description)) ?? ""
+        icon = (try? container.decode(String.self, forKey: .icon)) ?? ""
+        
+    }
+    
 }
