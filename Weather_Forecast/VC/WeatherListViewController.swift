@@ -11,6 +11,8 @@ class WeatherListViewController: UIViewController {
 
     var viewModel: WeatherListViewModel!
     
+    var transition = TransitionController()
+    
     lazy var activity: UIActivityIndicatorView = {
         var activity = UIActivityIndicatorView(style: .large)
         return activity
@@ -88,11 +90,14 @@ extension WeatherListViewController: UICollectionViewDelegate, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+
         let weatherDetailVC = WeatherDetailViewController()
         weatherDetailVC.view.backgroundColor = GlobalConstants.Color.Background.day
         let weatherData = viewModel.weather(index: indexPath.row)
         weatherDetailVC.viewModel.getWeatherData(weatherData: weatherData)
+        
+        weatherDetailVC.modalPresentationStyle = .fullScreen
+        weatherDetailVC.modalPresentationCapturesStatusBarAppearance = true
         
         self.present(weatherDetailVC, animated: true)
         
