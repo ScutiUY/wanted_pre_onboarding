@@ -57,88 +57,20 @@ class WeatherDetailViewController: UIViewController {
         return label
     }()
     
-    lazy var feel_Temp: UILabel = {
-        var label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 15)
-        label.adjustsFontSizeToFitWidth = true
-        label.numberOfLines = 1
-        label.text = "Feels like 22°C"
-        label.textColor = .white
-        label.minimumScaleFactor = 1
-        return label
+    lazy var closeButton: UIButton = {
+        var button = UIButton()
+        button.setImage(UIImage(named: "closeB"), for: .normal)
+        return button
     }()
     
-    lazy var humidityLabel: UILabel = {
-        var label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 15)
-        label.adjustsFontSizeToFitWidth = true
-        label.numberOfLines = 1
-        label.text = "습도: 0%"
-        label.textColor = .white
-        label.minimumScaleFactor = 1
-        return label
-    }()
-    
-    lazy var tempStackView: UIStackView = {
-        var stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 10
-        return stackView
-    }()
-    
-    lazy var maxTempLabel: UILabel = {
-        var label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 15)
-        label.adjustsFontSizeToFitWidth = true
-        label.numberOfLines = 1
-        label.text = "max: 20°C"
-        label.textColor = .white
-        label.minimumScaleFactor = 1
-        return label
-    }()
-    
-    lazy var minTempLabel: UILabel = {
-        var label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 15)
-        label.adjustsFontSizeToFitWidth = true
-        label.numberOfLines = 1
-        label.text = "min: 20°C"
-        label.textColor = .white
-        label.minimumScaleFactor = 1
-        return label
-    }()
-    
-    lazy var pressureLabel: UILabel = {
-        var label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 15)
-        label.adjustsFontSizeToFitWidth = true
-        label.numberOfLines = 1
-        label.text = "기압 hPa"
-        label.textColor = .white
-        label.minimumScaleFactor = 1
-        return label
-    }()
-    
-    lazy var windLabel: UILabel = {
-        var label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 15)
-        label.adjustsFontSizeToFitWidth = true
-        label.numberOfLines = 1
-        label.text = "풍속: 1.03m/s"
-        label.textColor = .white
-        label.minimumScaleFactor = 1
-        return label
-    }()
-    
-    lazy var visibility: UILabel = {
-        var label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 15)
-        label.adjustsFontSizeToFitWidth = true
-        label.numberOfLines = 1
-        label.text = "가시거리: 10km"
-        label.textColor = .white
-        label.minimumScaleFactor = 1
-        return label
+    lazy var detailWeatherInfoCollectionView: UICollectionView = {
+        var layout = UICollectionViewFlowLayout()
+        var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .clear
+        collectionView.register(DetailWeatherInfoCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        return collectionView
     }()
     
     override func viewDidLoad() {
@@ -150,61 +82,47 @@ class WeatherDetailViewController: UIViewController {
     
     func setLayout() {
         
+        closeButton.translatesAutoresizingMaskIntoConstraints = false
+        
         topStackView.translatesAutoresizingMaskIntoConstraints = false
         weatherImage.translatesAutoresizingMaskIntoConstraints = false
         cityNameLabel.translatesAutoresizingMaskIntoConstraints = false
         temperatureLabel.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-        feel_Temp.translatesAutoresizingMaskIntoConstraints = false
+        detailWeatherInfoCollectionView.translatesAutoresizingMaskIntoConstraints = false
         
-        tempStackView.translatesAutoresizingMaskIntoConstraints = false
-        maxTempLabel.translatesAutoresizingMaskIntoConstraints = false
-        minTempLabel.translatesAutoresizingMaskIntoConstraints = false
+        closeButton.addTarget(self, action: #selector(closeDetailWeather), for: .touchUpInside)
         
-        humidityLabel.translatesAutoresizingMaskIntoConstraints = false
-        pressureLabel.translatesAutoresizingMaskIntoConstraints = false
-        windLabel.translatesAutoresizingMaskIntoConstraints = false
-        visibility.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(weatherImage)
         
         view.addSubview(topStackView)
-        topStackView.addArrangedSubview(weatherImage)
         topStackView.addArrangedSubview(cityNameLabel)
         topStackView.addArrangedSubview(temperatureLabel)
         topStackView.addArrangedSubview(descriptionLabel)
-        topStackView.addArrangedSubview(feel_Temp)
         
-        view.addSubview(tempStackView)
-        tempStackView.addArrangedSubview(maxTempLabel)
-        tempStackView.addArrangedSubview(minTempLabel)
-        
-        topStackView.addArrangedSubview(tempStackView)
-        
-        view.addSubview(humidityLabel)
-        view.addSubview(pressureLabel)
-        view.addSubview(windLabel)
-        view.addSubview(visibility)
+        view.addSubview(closeButton)
+        view.addSubview(detailWeatherInfoCollectionView)
         
         NSLayoutConstraint.activate([
             
-            topStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            topStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
-            topStackView.bottomAnchor.constraint(equalTo: view.centerYAnchor).constraintWithMultiplier(0.7),
-            topStackView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.9),
+            closeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
+            closeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            closeButton.widthAnchor.constraint(equalToConstant: 30),
+            closeButton.heightAnchor.constraint(equalToConstant: 30),
             
+            weatherImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            weatherImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             weatherImage.widthAnchor.constraint(equalToConstant: 100),
             weatherImage.heightAnchor.constraint(equalToConstant: 100),
             
-            humidityLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            humidityLabel.topAnchor.constraint(equalTo: topStackView.bottomAnchor),
-            
-            pressureLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            pressureLabel.topAnchor.constraint(equalTo: humidityLabel.bottomAnchor),
-            
-            windLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            windLabel.topAnchor.constraint(equalTo: pressureLabel.bottomAnchor),
-            
-            visibility.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            visibility.topAnchor.constraint(equalTo: windLabel.bottomAnchor),
+            topStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            topStackView.topAnchor.constraint(equalTo: weatherImage.bottomAnchor, constant: 10),
+            topStackView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.9),
+        
+            detailWeatherInfoCollectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            detailWeatherInfoCollectionView.widthAnchor.constraint(equalTo: view.widthAnchor).constraintWithMultiplier(0.9),
+            detailWeatherInfoCollectionView.topAnchor.constraint(equalTo: topStackView.bottomAnchor, constant: 50),
+            detailWeatherInfoCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
         ])
     }
@@ -218,15 +136,37 @@ class WeatherDetailViewController: UIViewController {
             self?.cityNameLabel.text = weatherData?.name
             self?.temperatureLabel.text = String(Int(ceil((weatherData?.main.temp)! - 273.15))) + "°C"
             self?.descriptionLabel.text = weatherData?.weather.first!.description
-            self?.feel_Temp.text = "feels like: " + String(Int(ceil((weatherData?.main.feels_like)! - 273.15))) + "°C"
-            self?.maxTempLabel.text = "max: " + String(Int(ceil((weatherData?.main.temp_max)! - 273.15))) + "°C"
-            self?.minTempLabel.text = "max: " + String(Int(ceil((weatherData?.main.temp_min)! - 273.15))) + "°C"
-            self?.humidityLabel.text = "humidity: " + String((weatherData?.main.humidity)!) + "%"
-            self?.pressureLabel.text = "pressure: " + String((weatherData?.main.pressure)!) + "hPa"
-            self?.windLabel.text = "wind speed: " + String((weatherData?.wind.speed)!) + "m/s"
-            self?.visibility.text = "visibility: " + String(weatherData!.visibility) + "km"
+            self?.detailWeatherInfoCollectionView.reloadData()
         }
         
     }
+    
+    @objc func closeDetailWeather() {
+        print("pressed")
+        self.dismiss(animated: true)
+    }
 
+}
+
+extension WeatherDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print("return cell num")
+        return 6
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = detailWeatherInfoCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! DetailWeatherInfoCollectionViewCell
+        cell.setLayout()
+        cell.fetchData(index: indexPath.row, weatherData: viewModel.fetchData())
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width / 2.5, height: 130)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 5
+    }
+    
 }
