@@ -14,12 +14,14 @@ class TransitionController: NSObject, UIViewControllerTransitioningDelegate {
     var targetCellFrame: CGRect?
     var indexPath: IndexPath?
     
-//    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-//        return
-//    }
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        return WeatherPresentation(presentedViewController: presented, presenting: presenting)
+    }
+    
 //    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-//        return
+//        return WeatherPresentTransitioningAnimator(indexPath: indexPath!)
 //    }
+    
 //    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 //        return 
 //    }
