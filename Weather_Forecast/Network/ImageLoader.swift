@@ -14,7 +14,7 @@ class ImageLoader {
     
     static func loadImage(icon: String, completed: @escaping (UIImage?) -> Void) {
         let baseUrl = "https://openweathermap.org/img/wn/"
-        var fullPath = baseUrl+"\(icon)"+"@2x.png"
+        let fullPath = baseUrl+"\(icon)"+"@2x.png"
         if icon.isEmpty {
             completed(nil)
             return
