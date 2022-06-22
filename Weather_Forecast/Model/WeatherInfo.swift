@@ -35,10 +35,6 @@ class WeatherInfo: NSObject, Codable, NSItemProviderWriting {
         return progress
     }
     
-    
-  
-    
-    
     // 도시이름, 날씨 아이콘, 현재기온, 체감기온
     
     var coord: Coordinate = Coordinate.empty
