@@ -11,7 +11,7 @@ class WeatherData: Codable {
     
     static var EMPTY = WeatherData(weatherList: [])
     
-    var originRegion = ["Gongju", "Gwangju", "Gumi", "Gunsan" ,"Daejeon", "Mokpo", "Busan", "Seosan", "Seoul", "Sokcho", "Suwon", "Suncheon", "Ulsan", "Iksan", "Jeonju", "Jeju", "Cheonan", "Chungju", "Chuncheon"]
+    var originRegion = ["Gongju", "Gwangju", "Gumi", "Gunsan" ,"Daejeon", "Mokpo", "Busan", "Seosan", "Seoul", "Sokcho", "Suwon", "Suncheon", "Ulsan", "Iksan", "Jeonju", "Jeju", "Cheonan", "Chungju", "Chuncheon", "Daegu"]
     
     var weatherList: [WeatherInfo] = []
     
