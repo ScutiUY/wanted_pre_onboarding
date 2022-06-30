@@ -15,4 +15,4 @@ MVVM + Swift
 ## 기능
 - custom Model drag and drop
 
-![DragNDrop](https://user-images.githubusercontent.com/36326157/174067339-1dff05df-e7e2-429f-9166-ff7ae5176952.gif)
+![DragAndDrop](https://user-images.githubusercontent.com/36326157/176576370-0ce17da4-18e9-4730-8347-51a05d792873.gif)
